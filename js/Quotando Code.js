@@ -16,13 +16,6 @@ $(document).ready(function() {
   };
 
 
-// Fucntion IBAN Check
-  function isIban(ibanElem) {
-    var ibanTest = $(ibanElem).val();
-    var regex = /^DE\d{20}$/;
-    return regex.test(ibanTest);
-  };
-
 
 var Webflow = Webflow || [];
 Webflow.push(function() {
@@ -99,40 +92,6 @@ Webflow.push(function() {
       })
 
     
-       // IBAN Check
-     .on('click', '.text-check', function() {
-     
-        var elemText = [];
-         var condition = 0;
-         elemText = $(this).closest('.form-content').find('.text-check-n');
-         elemText.each(function() {
-             if (this.value == '') {
-                 $(this).parent().find('.confirm-w-field').show();
-                 $('.text-field').attr('style','background-color: #ff00001f;');
-                 $('.Field-Label').attr('style','color: red;');
-                 condition++;
-             } else {
-                 $(this).parent().find('.confirm-w-field').hide();
-                 $('.text-field').attr('style','background-color: #f2f2f2;');
-                 $('.Field-Label').attr('style','color: rgba(0, 0, 0, 0.5);');
-             };
-         });
-     
-         var iBanText = $(this).closest('.form-content').find('.text-check-n');
-         var iBanAlert = iBanText.parent().find('.confirm-w-field');
-         if (isIban(iBanText)) {
-             iBanAlert.hide();
-         } else {
-             iBanAlert.show();
-         };
-         
-         if ( (condition === 0) && (isIban(iBanText)) ) {
-             r.trigger('tap');
-             $("html, body").animate({ scrollTop: 0 }, "slow");
-          };
-          
-
-      })
      
     // Photos Check
     .on('click', '.UJHr-check', function() {
