@@ -1,4 +1,3 @@
-<script>
 // Prevent Enter Hit
 $(document).ready(function() {
   $(window).keydown(function(event){
@@ -275,31 +274,11 @@ Webflow.push(function() {
 
 });
 
-</script>
+
 
 <!-- Radiobutton active -->
-<script>
 $('.checkbox-base').on('click', function() {
     if (this.children[0].classList.contains('w--redirected-checked')) {
         $(this).addClass('radio-active');
     };
 });
-</script>
-
-<script src="//trck.quotando.de/trck/etms/eatms.js?campaign_id=198"></script>
-
-<script>
-
-  function getOrderID() {
-        const msDate = new Date().getTime();
-        const randomNumber = Math.floor(Math.random() * 100000)
-        return msDate + "-" + randomNumber
-    }
-
-    let orderID = localStorage.getItem("Order-Id");
-    if (!orderID) {
-        orderID = getOrderID();
-        localStorage.setItem("Order-Id", orderID);
-    }
-    document.getElementById("Order-ID").value = orderID;
-    </script>
