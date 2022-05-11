@@ -1,4 +1,3 @@
-// Prevent Enter Hit
 $(document).ready(function() {
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
@@ -8,14 +7,18 @@ $(document).ready(function() {
   });
 });
 
-// Fucntion Email Check
+
   function isEmail(emailElem) {
     var emailTest = $(emailElem).val();
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(emailTest);
   };
 
-
+  function isIban(ibanElem) {
+    var ibanTest = $(ibanElem).val();
+    var regex = /^DE\d{2}  \d{4} \d{4} \d{4} \d{4} \d{2}$/;
+    return regex.test(ibanTest);
+  };
 
 var Webflow = Webflow || [];
 Webflow.push(function() {
@@ -27,7 +30,7 @@ Webflow.push(function() {
       $("html, body").animate({ scrollTop: 0 }, "slow");
    })
    
-// Simple Slider-right Check
+
    .on('click', '.slider-right', function() {
       if ( !( (this.classList.contains('text-check')) || (this.classList.contains('email-check')) || (this.classList.contains('radio-check'))  )) {
        r.trigger('tap');
@@ -35,7 +38,6 @@ Webflow.push(function() {
      };
    })
 
- // Hit Enter without checking
    .on('keyup', '.text-check-n', function(e) {
      			var code = e.key;
           if (code === "Enter") {
@@ -44,7 +46,6 @@ Webflow.push(function() {
           };
     })
 
-   // Text Check
      .on('click', '.text-check', function() {
          var elemText = [];
          var condition = 0;
@@ -52,9 +53,13 @@ Webflow.push(function() {
          elemText.each(function() {
              if (this.value == '') {
                  $(this).parent().find('.confirm-w-field').show();
+                 $('.text-field').attr('style','background-color: #ff00001f;');
+                 $('.field-Label').attr('style','color: red;');
                  condition++;
              } else {
                  $(this).parent().find('.confirm-w-field').hide();
+                 $('.text-field').attr('style','background-color: #f2f2f2;');
+                 $('.field-Label').attr('style','color: rgba(0, 0, 0, 0.5);');
              };
          });
          
@@ -91,10 +96,73 @@ Webflow.push(function() {
 
       })
 
-    
+
+    // Paypal E-Mail Check and populate
+     .on('click', '.email-check', function() {
+         var emailText = $(this).closest('.form-content').find('.text-check-e');
+         var emailAlert = emailText.parent().find('.confirm-w-field');
+         if ( emailText.val() === '' ) {
+            //r.trigger('tap');
+            // $("html, body").animate({ scrollTop: 0 }, "slow");
+         
+         } else {
+             if (isEmail(emailText)) {
+                 emailAlert.hide();
+                 r.trigger('tap');
+                 $("html, body").animate({ scrollTop: 0 }, "slow");
+             } else {
+                 emailAlert.show();
+             };
+         };
+         
+          var iban = $('#IBAN').val();
+          if ( iban != '') {
+             $('.conf-iban').text(iban);
+          };
+          
+          var paypal = $('#Paypal-Account').val();
+          if ( paypal != '') {
+             $('.conf-paypal').text(paypal);
+          };
+         
+      })
+
+ 
+    //IBAN verifier
+     .on('click', '.email-check', function() {
      
-    // Photos Check
-    .on('click', '.UJHr-check', function() {
+        var elemText = [];
+         var condition = 0;
+         elemText = $(this).closest('.form-content').find('.text-check-n');
+         elemText.each(function() {
+             if (this.value == '') {
+                 r.trigger('tap');
+             $("html, body").animate({ scrollTop: 0 }, "slow");
+             $(this).parent().find('.hideme').hide();
+             } else {
+                 $(this).parent().find('.confirm-w-field').hide();
+                 $(this).parent().find('.hideme').show();
+             };
+         });
+     
+         var iBanText = $(this).closest('.form-content').find('.text-check-n');
+         var iBanAlert = iBanText.parent().find('.confirm-w-field');
+         if (isIban(iBanText)) {
+             iBanAlert.hide();
+         } else {
+             iBanAlert.show();
+         };
+         
+         if ( (condition === 0) && (isIban(iBanText)) ) {
+             r.trigger('tap');
+             $("html, body").animate({ scrollTop: 0 }, "slow");
+          };
+          
+
+      })
+     
+
+    .on('click', '.fahr-check', function() {
           var photos = [];
           photos = $('.photo-car-e');
           var photosC = [];
@@ -127,7 +195,7 @@ Webflow.push(function() {
                   
      })
 
-    // Photos Person Check
+ 
     .on('click', '.person-check', function() {
           var personV = $('.person-v').text();
           var personR = $('.person-r').text();
@@ -145,8 +213,6 @@ Webflow.push(function() {
 
      })
 
-
-    // SubmitButton Check
     .on('click', '.submit-button-c', function() {
         let elemRadio = [];
         elemRadio = $(this).closest('.form-content').find('.w-checkbox-input');
@@ -232,12 +298,11 @@ Webflow.push(function() {
     
 
 });
+  
+  
 
-
-
-<!-- Radiobutton active -->
-$('.checkbox-base').on('click', function() {
-    if (this.children[0].classList.contains('w--redirected-checked')) {
-        $(this).addClass('radio-active');
-    };
-});
+$('.checkbox-base').on('click', function() {	
+    if (this.children[0].classList.contains('w--redirected-checked')) {	
+        $(this).addClass('radio-active');	
+    };	
+});	
